@@ -21,6 +21,7 @@ include ../s2n.mk
 
 LDFLAGS += -L../lib/ ${CRYPTO_LDFLAGS} -ls2n ${LIBS} ${CRYPTO_LIBS}
 CRUFT += s2nc s2nd
+CFLAGS := $(CFLAGS:-emit-llvm=)
 
 s2nc: s2nc.c echo.c
 	${CC} ${CFLAGS} s2nc.c echo.c  -o s2nc ${LDFLAGS}

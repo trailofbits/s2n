@@ -13,6 +13,20 @@
 # permissions and limitations under the License.
 #
 
+SOURCES = $(wildcard *.c *.h)
+CRUFT   = $(wildcard *.c~ *.h~ *.c.BAK *.h.BAK *.o *.a *.so *.dylib)
+INDENT  = $(shell (if indent --version 2>&1 | grep GNU > /dev/null; then echo indent ; elif gindent --version 2>&1 | grep GNU > /dev/null; then echo gindent; else echo true ; fi ))
+
+CFLAGS = -pedantic -Wall -Werror -Wimplicit -Wunused -Wcomment -Wchar-subscripts -Wuninitialized \
+         -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wstack-protector -fPIC \
+         -std=c99 -D_POSIX_C_SOURCE=200112L -fstack-protector-all -O2 -I$(LIBCRYPTO_ROOT)/include/ \
+         -I../api/ -I../ -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security \
+         -D_FORTIFY_SOURCE=2
+
+ifdef BUILD_BITCODE
+CC      = clang
+CFLAGS := $(CFLAGS) -emit-llvm
+else
 ifeq ($(PLATFORM),Darwin)
     LIBS = -lc -lpthread
     CRYPTO_LIBS =
@@ -26,16 +40,7 @@ else
     LIBS = -lpthread -ldl -lrt
     CRYPTO_LIBS = -lcrypto
 endif
-
-SOURCES = $(wildcard *.c *.h)
-CRUFT   = $(wildcard *.c~ *.h~ *.c.BAK *.h.BAK *.o *.a *.so *.dylib)
-INDENT  = $(shell (if indent --version 2>&1 | grep GNU > /dev/null; then echo indent ; elif gindent --version 2>&1 | grep GNU > /dev/null; then echo gindent; else echo true ; fi ))
-
-CFLAGS = -pedantic -Wall -Werror -Wimplicit -Wunused -Wcomment -Wchar-subscripts -Wuninitialized \
-         -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wstack-protector -fPIC \
-         -std=c99 -D_POSIX_C_SOURCE=200112L -fstack-protector-all -O2 -I$(LIBCRYPTO_ROOT)/include/ \
-         -I../api/ -I../ -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security \
-         -D_FORTIFY_SOURCE=2
+endif
 
 INDENTOPTS = -npro -kr -i4 -ts4 -nut -sob -l180 -ss -ncs -cp1
 

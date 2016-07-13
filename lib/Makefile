@@ -18,6 +18,14 @@ OBJS = $(wildcard ../utils/*.o ../stuffer/*.o ../tls/*.o ../iana/*.o ../crypto/*
 .PHONY : all
 all: libs2n.a libs2n.so libs2n.dylib
 
+ifdef BUILD_BITCODE
+LINK = llvm-link-3.6
+SHARED = 
+else
+LINK = $(CC)
+SHARED = -shared
+endif
+
 include ../s2n.mk
 
 libs2n.a: ${OBJS}
@@ -25,7 +33,7 @@ libs2n.a: ${OBJS}
 	ranlib libs2n.a
 
 libs2n.so: ${OBJS}
-	${CC} -shared ${LIBS} -o libs2n.so ${OBJS}
+	${LINK} ${SHARED} ${LIBS} -o libs2n.bc ${OBJS}
 
 libs2n.dylib: ${OBJS}
 	test ! -f /usr/lib/libSystem.dylib || libtool -dynamic ${LIBS} -o libs2n.dylib ${OBJS}
