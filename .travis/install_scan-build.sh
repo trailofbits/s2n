@@ -1,4 +1,4 @@
-#
+#!/bin/bash
 # Copyright 2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License").
@@ -12,13 +12,12 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 #
-#!/bin/bash
 
-LIBCRYPTO_ROOT=$1
+set -e
 
-wget https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tgz
-tar xzf Python-3.5.1.tgz
-cd Python-3.5.1
-./configure CPPFLAGS="-I$LIBCRYPTO_ROOT/include" LDFLAGS="-L$LIBCRYPTO_ROOT/lib"
-make
-make install
+pushd `pwd`
+
+INSTALL_DIR=$1
+
+wget http://clang-analyzer.llvm.org/downloads/checker-278.tar.bz2
+tar jxf checker-278.tar.bz2 --strip-components=1 -C $INSTALL_DIR
