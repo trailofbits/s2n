@@ -19,6 +19,7 @@
 #include <sys/types.h>
 #include <stdint.h>
 
+#include "utils/s2n_screen.h"
 #include "error/s2n_errno.h"
 
 /* NULL check a pointer */
@@ -51,6 +52,7 @@
 extern pid_t s2n_actual_getpid();
 
 /* Returns 1 if a and b are equal, in constant time */
+SCREEN(equals)
 extern int s2n_constant_time_equals(const uint8_t *a, const uint8_t *b, uint32_t len);
 
 /* Copy src to dst, or don't copy it, in constant time */

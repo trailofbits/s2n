@@ -45,6 +45,10 @@ static int s2n_rsa_client_key_recv(struct s2n_connection *conn)
         S2N_ERROR(S2N_ERR_BAD_MESSAGE);
     }
 
+    SCREEN_START(path);
+
+    SCREEN_START(rsa_key_recv);
+
     /* Keep a copy of the client protocol version in wire format */
     client_protocol_version[0] = conn->client_protocol_version / 10;
     client_protocol_version[1] = conn->client_protocol_version % 10;
@@ -70,6 +74,8 @@ static int s2n_rsa_client_key_recv(struct s2n_connection *conn)
 
     /* Set rsa_failed to 1, if it isn't already, if the protocol version isn't what we expect */
     conn->handshake.rsa_failed |= !s2n_constant_time_equals(client_protocol_version, pms.data, S2N_TLS_PROTOCOL_VERSION_LEN);
+
+    SCREEN_END(rsa_key_recv);
 
     /* Turn the pre-master secret into a master secret */
     GUARD(s2n_prf_master_secret(conn, &pms));

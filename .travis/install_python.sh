@@ -22,3 +22,4 @@ cd Python-3.5.1
 ./configure CPPFLAGS="-I$LIBCRYPTO_ROOT/include" LDFLAGS="-L$LIBCRYPTO_ROOT/lib"
 make
 make install
+make clean

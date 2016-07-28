@@ -1,22 +1,34 @@
 sudo: true
 
 os:
-  - osx
   - linux
+  - osx
+
+dist: trusty
 
 compiler:
-  - gcc
   - clang
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-add-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-3.8 main" -y ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -q ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --force-yes -y clang-3.8 lldb-3.8 ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get clean ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get autoremove ; fi
 
 install:
   - .travis/install_openssl.sh `pwd`/libcrypto-build `pwd`/libcrypto-root $TRAVIS_OS_NAME > /dev/null
   # Install python linked with our compiled Openssl for integration tests
   - sudo .travis/install_python.sh `pwd`/libcrypto-root > /dev/null
+  # Install screen
+  - (test "$TRAVIS_OS_NAME" = "linux" && sudo -E .travis/install_screen.sh || true)
   # Install prlimit to set the memlock limit to unlimited for this process
   - (test "$TRAVIS_OS_NAME" = "linux" && sudo .travis/install_prlimit.sh $PWD/.travis > /dev/null && sudo .travis/prlimit --pid "$$" --memlock=unlimited:unlimited) || true
   - mkdir -p .travis/checker && .travis/install_scan-build.sh .travis/checker && export PATH=$PATH:.travis/checker/bin
+
 script:
-  - (test "$TRAVIS_OS_NAME" = "linux" && make -j8) || true
+  - (test "$TRAVIS_OS_NAME" = "linux" && bear -n -o compile_db.json make -j8 libs ; .travis/invoke_screen.sh compile_db.json s2n_client_key_recv || true)
+  - (test "$TRAVIS_OS_NAME" = "linux" && make -j8 || true)
   # Build and run unit tests with scan-build for osx. scan-build bundle isn't available for linux
   - (test "$TRAVIS_OS_NAME" = "osx" && scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS) || true
-  - make integration
+  #- make integration

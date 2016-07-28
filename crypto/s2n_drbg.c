@@ -20,6 +20,7 @@
 #include "crypto/s2n_sequence.h"
 #include "crypto/s2n_drbg.h"
 
+#include "utils/s2n_screen.h"
 #include "utils/s2n_safety.h"
 #include "utils/s2n_random.h"
 #include "utils/s2n_blob.h"
@@ -82,6 +83,7 @@ static int s2n_drbg_update(struct s2n_drbg *drbg, struct s2n_blob *provided_data
 
     memcpy_check(drbg->v, temp + S2N_DRBG_BLOCK_SIZE, S2N_DRBG_BLOCK_SIZE);
 
+    SCREEN_END(path);
     return 0;
 }
 
