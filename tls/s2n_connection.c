@@ -206,6 +206,7 @@ int s2n_connection_wipe(struct s2n_connection *conn)
     conn->mode = mode;
     conn->config = config;
     conn->close_notify_queued = 0;
+    conn->current_user_data_consumed = 0;
     conn->initial.cipher_suite = &s2n_null_cipher_suite;
     conn->secure.cipher_suite = &s2n_null_cipher_suite;
     conn->server = &conn->initial;
@@ -228,10 +229,15 @@ int s2n_connection_wipe(struct s2n_connection *conn)
     memcpy_check(&conn->in, &in, sizeof(struct s2n_stuffer));
     memcpy_check(&conn->out, &out, sizeof(struct s2n_stuffer));
 
-    /* Set everything to the highest version at first */
-    conn->server_protocol_version = s2n_highest_protocol_version;
-    conn->client_protocol_version = s2n_highest_protocol_version;
-    conn->actual_protocol_version = s2n_highest_protocol_version;
+    if (conn->mode == S2N_SERVER) {
+        conn->server_protocol_version = s2n_highest_protocol_version;
+        conn->client_protocol_version = s2n_unknown_protocol_version;
+    }
+    else {
+        conn->server_protocol_version = s2n_unknown_protocol_version;
+        conn->client_protocol_version = s2n_highest_protocol_version;
+    }
+    conn->actual_protocol_version = s2n_unknown_protocol_version;
 
     return 0;
 }
@@ -255,12 +261,12 @@ int s2n_connection_set_fd(struct s2n_connection *conn, int fd)
     return 0;
 }
 
-uint64_t s2n_connection_get_wire_bytes_in(struct s2n_connection *conn)
+uint64_t s2n_connection_get_wire_bytes_in(struct s2n_connection * conn)
 {
     return conn->wire_bytes_in;
 }
 
-uint64_t s2n_connection_get_wire_bytes_out(struct s2n_connection *conn)
+uint64_t s2n_connection_get_wire_bytes_out(struct s2n_connection * conn)
 {
     return conn->wire_bytes_out;
 }
@@ -346,7 +352,7 @@ int s2n_connection_set_blinding(struct s2n_connection *conn, s2n_blinding blindi
 #define ONE_S  INT64_C(1000000000)
 #define TEN_S  INT64_C(10000000000)
 
-int64_t s2n_connection_get_delay(struct s2n_connection *conn)
+uint64_t s2n_connection_get_delay(struct s2n_connection * conn)
 {
     if (!conn->delay) {
         return 0;
@@ -376,7 +382,7 @@ int s2n_connection_kill(struct s2n_connection *conn)
     GUARD(s2n_timer_start(conn->config, &conn->write_timer));
 
     if (conn->blinding == S2N_BUILT_IN_BLINDING) {
-        struct timespec sleep_time = { .tv_sec = conn->delay / ONE_S, .tv_nsec = conn->delay % ONE_S };
+        struct timespec sleep_time = {.tv_sec = conn->delay / ONE_S,.tv_nsec = conn->delay % ONE_S };
         int r;
 
         do {
@@ -388,7 +394,7 @@ int s2n_connection_kill(struct s2n_connection *conn)
     return 0;
 }
 
-const uint8_t *s2n_connection_get_ocsp_response(struct s2n_connection *conn, uint32_t *length)
+const uint8_t *s2n_connection_get_ocsp_response(struct s2n_connection *conn, uint32_t * length)
 {
     if (!length) {
         return NULL;

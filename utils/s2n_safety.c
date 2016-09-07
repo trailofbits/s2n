@@ -40,7 +40,7 @@ pid_t s2n_actual_getpid()
 }
 
 SCREEN(const_equals)
-int s2n_constant_time_equals(const uint8_t *a, const uint8_t *b, uint32_t len)
+int s2n_constant_time_equals(const uint8_t * a, const uint8_t * b, uint32_t len)
 {
     uint8_t xor = 0;
     for (int i = 0; i < len; i++) {
@@ -51,7 +51,7 @@ int s2n_constant_time_equals(const uint8_t *a, const uint8_t *b, uint32_t len)
 }
 
 SCREEN(const_copy)
-int s2n_constant_time_copy_or_dont(uint8_t *a, const uint8_t *b, uint32_t len, uint8_t dont)
+int s2n_constant_time_copy_or_dont(uint8_t * a, const uint8_t * b, uint32_t len, uint8_t dont)
 {
     uint8_t mask = ~(0xff << ((!dont) * 8));
 

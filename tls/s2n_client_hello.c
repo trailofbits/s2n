@@ -50,7 +50,7 @@ int s2n_client_hello_recv(struct s2n_connection *conn)
     GUARD(s2n_stuffer_read_uint8(in, &conn->session_id_len));
 
     conn->client_protocol_version = (client_protocol_version[0] * 10) + client_protocol_version[1];
-    if (conn->client_protocol_version < conn->config->cipher_preferences->minimum_protocol_version || conn->client_protocol_version > S2N_TLS12) {
+    if (conn->client_protocol_version < conn->config->cipher_preferences->minimum_protocol_version || conn->client_protocol_version > conn->server_protocol_version) {
         GUARD(s2n_queue_reader_unsupported_protocol_version_alert(conn));
         S2N_ERROR(S2N_ERR_BAD_MESSAGE);
     }
@@ -153,7 +153,7 @@ int s2n_sslv2_client_hello_recv(struct s2n_connection *conn)
     uint16_t challenge_length;
     uint8_t *cipher_suites;
 
-    if (conn->client_protocol_version < conn->config->cipher_preferences->minimum_protocol_version || conn->client_protocol_version > S2N_TLS12) {
+    if (conn->client_protocol_version < conn->config->cipher_preferences->minimum_protocol_version || conn->client_protocol_version > conn->server_protocol_version) {
         GUARD(s2n_queue_reader_unsupported_protocol_version_alert(conn));
         S2N_ERROR(S2N_ERR_BAD_MESSAGE);
     }
@@ -185,8 +185,7 @@ int s2n_sslv2_client_hello_recv(struct s2n_connection *conn)
     if (session_id_length > 0 && session_id_length <= S2N_TLS_SESSION_ID_MAX_LEN) {
         GUARD(s2n_stuffer_read_bytes(in, conn->session_id, session_id_length));
         conn->session_id_len = (uint8_t) session_id_length;
-    }
-    else {
+    } else {
         GUARD(s2n_stuffer_skip_read(in, session_id_length));
     }
 

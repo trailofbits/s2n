@@ -179,7 +179,7 @@ int s2n_record_write(struct s2n_connection *conn, uint8_t content_type, struct s
     }
 
     /* We are done with this sequence number, so we can increment it */
-    struct s2n_blob seq = {.data = sequence_number, .size = S2N_TLS_SEQUENCE_NUM_LEN };
+    struct s2n_blob seq = {.data = sequence_number,.size = S2N_TLS_SEQUENCE_NUM_LEN };
     GUARD(s2n_increment_sequence_number(&seq));
 
     /* Write the plaintext data */
@@ -214,7 +214,7 @@ int s2n_record_write(struct s2n_connection *conn, uint8_t content_type, struct s
     uint16_t encrypted_length = data_bytes_to_take + mac_digest_size;
 
     if (cipher_suite->cipher->type == S2N_AEAD) {
-        encrypted_length += cipher_suite->cipher->io.aead.record_iv_size;
+        GUARD(s2n_stuffer_skip_write(&conn->out, cipher_suite->cipher->io.aead.record_iv_size));
         encrypted_length += cipher_suite->cipher->io.aead.tag_size;
     }
 

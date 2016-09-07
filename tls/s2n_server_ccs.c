@@ -37,7 +37,7 @@ int s2n_server_ccs_recv(struct s2n_connection *conn)
     }
 
     /* Zero the sequence number */
-    struct s2n_blob seq = {.data = conn->secure.server_sequence_number, .size = S2N_TLS_SEQUENCE_NUM_LEN };
+    struct s2n_blob seq = {.data = conn->secure.server_sequence_number,.size = S2N_TLS_SEQUENCE_NUM_LEN };
     GUARD(s2n_blob_zero(&seq));
 
     /* Compute the finished message */
@@ -49,7 +49,7 @@ int s2n_server_ccs_recv(struct s2n_connection *conn)
     /* Flush any partial alert messages that were pending */
     GUARD(s2n_stuffer_wipe(&conn->alert_in));
 
-    if (conn->handshake.handshake_type == RESUME) {
+    if (IS_RESUMPTION_HANDSHAKE(conn->handshake.handshake_type)) {
         GUARD(s2n_prf_key_expansion(conn));
     }
 
@@ -60,7 +60,7 @@ int s2n_server_ccs_send(struct s2n_connection *conn)
 {
     GUARD(s2n_stuffer_write_uint8(&conn->handshake.io, CHANGE_CIPHER_SPEC_TYPE));
 
-    if (conn->handshake.handshake_type == RESUME) {
+    if (IS_RESUMPTION_HANDSHAKE(conn->handshake.handshake_type)) {
         GUARD(s2n_prf_key_expansion(conn));
     }
 
