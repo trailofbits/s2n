@@ -5,9 +5,11 @@ set -e
 DB=$1
 START_SYM=$2
 
+cat screen/python/comp_db_generate.py
+
 python3 screen/python/comp_db_generate.py -o ./build.sh -l screen/build/llvm ${DB} generate
 
-/bin/bash ./build.sh > /dev/null
+/bin/bash ./build.sh # > /dev/null
 
 python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump
 LIB=$(python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump)
