@@ -27,4 +27,5 @@ python3 -m pip install --user boto3
 echo "cat screen_output.txt"
 cat screen_output.txt
 echo "${TRAVIS_COMMIT}"
-python3 ./screen/python/submit_results.py -c ${TRAVIS_COMMIT} screen_output.txt
+echo "python3 ./screen/python/submit_results.py -k 2a47f0fa600a405cdc5d4ac1fc310b6d -p trailofbits/s2n -c ${TRAVIS_COMMIT} screen_output.txt"
+python3 ./screen/python/submit_results.py -k 2a47f0fa600a405cdc5d4ac1fc310b6d -p trailofbits/s2n -c ${TRAVIS_COMMIT} screen_output.txt
