@@ -9,7 +9,9 @@ python3 screen/python/comp_db_generate.py -o ./build.sh -l screen/build/llvm ${D
 
 /bin/bash ./build.sh > /dev/null
 
+python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump
 LIB=$(python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump)
+echo LIB: $LIB
 LIB_PATH=$(dirname ${LIB})
 
 ./screen/build/llvm/bin/opt \
