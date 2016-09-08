@@ -24,4 +24,7 @@ LIB_PATH=$(dirname ${LIB})
 # Python3.5 should have just been installed for a different depency
 python3 -m ensurepip --user
 python3 -m pip install --user boto3
+echo "cat screen_output.txt"
+cat screen_output.txt
+echo "${TRAVIS_COMMIT}"
 python3 ./screen/python/submit_results.py -c ${TRAVIS_COMMIT} screen_output.txt
