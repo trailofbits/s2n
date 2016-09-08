@@ -40,13 +40,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository ppa:hvr/z3 -y; sudo apt-key update; sudo apt-get update; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install z3 -y --force-yes; fi
 
-  # Needed for screen
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-add-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-3.8 main" -y ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -q ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --force-yes -y clang-3.8 lldb-3.8 ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get clean ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get autoremove ; fi
-
 install:
   # Download and Install LibFuzzer
   - .travis/install_libFuzzer.sh `pwd`/fuzz_dependencies/libFuzzer-download `pwd`/fuzz_dependencies $TRAVIS_OS_NAME
