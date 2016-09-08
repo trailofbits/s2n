@@ -2,10 +2,10 @@
 
 # set -e
 
-# onerr() {
-#     echo "Errored"
-# }
-# trap onerr ERR
+onerr() {
+    echo "Errored"
+}
+trap onerr ERR
 
 # First, install bear
 mkdir -p bear/build

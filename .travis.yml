@@ -55,8 +55,8 @@ install:
   # - .travis/run_cppcheck.sh
 
 script:
-  - (test "$TRAVIS_OS_NAME" = "linux" && bear -n -o compile_db.json make -j8 libs ; .travis/invoke_screen.sh compile_db.json s2n_client_key_recv || true)
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make -j 8   ; fi
+  - (test "$TRAVIS_OS_NAME" = "linux" && bear -n -o compile_db.json sh -c 'make -j8 clean libs' ; .travis/invoke_screen.sh compile_db.json s2n_client_key_recv || true)
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make clean ;  make -j 8 ; fi
   # Build and run unit tests with scan-build for osx. scan-build bundle isn't available for linux
   - (test "$TRAVIS_OS_NAME" = "osx" && scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS) || true
   - make integration
