@@ -42,7 +42,7 @@ before_install:
 
 install:
   # Download and Install LibFuzzer
-  - .travis/install_libFuzzer.sh `pwd`/fuzz_dependencies/libFuzzer-download `pwd`/fuzz_dependencies $TRAVIS_OS_NAME
+  # - .travis/install_libFuzzer.sh `pwd`/fuzz_dependencies/libFuzzer-download `pwd`/fuzz_dependencies $TRAVIS_OS_NAME
   # Download and Install Openssl
   - .travis/install_openssl.sh `pwd`/libcrypto-build `pwd`/libcrypto-root $TRAVIS_OS_NAME > /dev/null
   # Install python linked with our compiled Openssl for integration tests
@@ -57,11 +57,10 @@ install:
 script:
   - (test "$TRAVIS_OS_NAME" = "linux" && bear -n -o compile_db.json sh -c 'make clean libs' ; .travis/invoke_screen.sh compile_db.json s2n_client_key_recv || true)
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make clean ;  make -j 8 ; fi
-  # Build and run unit tests with scan-build for osx. scan-build bundle isn't available for linux
   - (test "$TRAVIS_OS_NAME" = "osx" && scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS) || true
   - make integration
-  - make clean && make fuzz
+  - make clean #&& make fuzz
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then   scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS ; fi
   - make integration
-  - make clean && make fuzz
+  - make clean #&& make fuzz
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH="/usr/local/clang-3.4/bin/":$PATH; echo $PATH; which clang; clang --version; llvm-link --version; make saw; fi 
