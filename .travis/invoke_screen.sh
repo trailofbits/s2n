@@ -16,7 +16,7 @@ LIB=$(python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} 
 echo Built lib: $LIB
 LIB_PATH=$(dirname ${LIB})
 
-./screen/build/llvm/bin/opt \
+time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/screen.so -screen \
   -screen-output screen_output.txt \
   -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc || true
@@ -28,10 +28,11 @@ cd  boost_1_58_0
 ./bootstrap.sh --exec-prefix=/usr/local --libdir=/usr/lib/x86_64-linux-gnu --includedir=/usr/lib/x86_64-linux-gnu --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log
 ./b2
 sudo ./b2 install
+cd ..
 ./screen/pagai/linux_src/pagai -h
-./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
+time ./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 
-./screen/build/llvm/bin/opt \
+time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/range.so -invariant_analysis -invariant-debug\
   -invariant-output invariant_output.txt \
   ${LIB} -o ${LIB_PATH}/xformed.bc || true
