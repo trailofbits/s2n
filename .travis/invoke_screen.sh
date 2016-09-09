@@ -22,10 +22,11 @@ LIB_PATH=$(dirname ${LIB})
   -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc || true
 
 # TODO run pagai on bc, assuming on linux and this build works on travis's 14.04 
+./screen/pagai/linux_src/pagai -h
 ./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 
 ./screen/build/llvm/bin/opt \
-  -load screen/build/lib/range.so -invariant_analysis \
+  -load screen/build/lib/range.so -invariant_analysis -invariant-debug\
   -invariant-output invariant_output.txt \
   ${LIB} -o ${LIB_PATH}/xformed.bc || true
 
