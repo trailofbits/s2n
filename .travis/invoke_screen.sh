@@ -33,7 +33,7 @@ cd ..
 wget "https://github.com/Z3Prover/z3/archive/29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz" -O z3-29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz
 tar zxf z3-29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz 
 cd z3-29606b5179f76783ffb0c2ca0ed9d614847064b3
-CXX=clang++ CC=clang python scripts/mk_make.py
+CXX=clang++ CC=clang python scripts/mk_make.py --prefix=/usr/local
 cd build
 make
 sudo make install
