@@ -23,11 +23,11 @@ LIB_PATH=$(dirname ${LIB})
 
 # TODO run pagai on bc, assuming on linux and this build works on travis's 14.04 
 wget https://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz/download
-tar xvf download
+tar zxf download
 cd  boost_1_58_0
-./bootstrap.sh --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log
+./bootstrap.sh --exec-prefix=/usr/local --libdir=/usr/lib/x86_64-linux-gnu --includedir=/usr/lib/x86_64-linux-gnu --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log
 ./b2
-./b2 install
+sudo ./b2 install
 ./screen/pagai/linux_src/pagai -h
 ./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 
