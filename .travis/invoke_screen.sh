@@ -29,6 +29,14 @@ cd  boost_1_58_0
 ./b2
 sudo ./b2 install
 cd ..
+# Install Z3
+wget "https://github.com/Z3Prover/z3/archive/29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz" -O z3-29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz
+tar zxf z3-29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz 
+cd z3-29606b5179f76783ffb0c2ca0ed9d614847064b3
+CXX=clang++ CC=clang python scripts/mk_make.py
+cd build
+make
+sudo make install
 ./screen/pagai/linux_src/pagai -h
 time ./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 
