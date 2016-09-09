@@ -22,6 +22,12 @@ LIB_PATH=$(dirname ${LIB})
   -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc || true
 
 # TODO run pagai on bc, assuming on linux and this build works on travis's 14.04 
+wget https://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz/download
+tar xvf download
+cd  boost_1_58_0
+./bootstrap.sh --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log
+./b2
+./b2 install
 ./screen/pagai/linux_src/pagai -h
 ./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 
