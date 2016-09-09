@@ -37,6 +37,7 @@ CXX=clang++ CC=clang python scripts/mk_make.py
 cd build
 make
 sudo make install
+cd ../../
 ./screen/pagai/linux_src/pagai -h
 time ./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 
