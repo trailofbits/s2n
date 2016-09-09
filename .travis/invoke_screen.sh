@@ -21,11 +21,21 @@ LIB_PATH=$(dirname ${LIB})
   -screen-output screen_output.txt \
   -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc || true
 
+# TODO run pagai on bc, assuming on linux and this build works on travis's 14.04 
+./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
+
+./screen/build/llvm/bin/opt \
+  -load screen/build/lib/range.so -invariant_analysis \
+  -invariant-output invariant_output.txt \
+  ${LIB} -o ${LIB_PATH}/xformed.bc || true
+
 # Python3.5 should have just been installed for a different depency
 python3 -m ensurepip --user
 python3 -m pip install --user boto3
 echo "cat screen_output.txt"
+echo "cat invariant_output.txt"
 cat screen_output.txt
+cat invariant_output.txt
 echo "${TRAVIS_COMMIT}"
-echo "python3 ./screen/python/submit_results.py -c ${TRAVIS_COMMIT} -p trailofbits/s2n -k 2a47f0fa600a405cdc5d4ac1fc310b6d screen_output.txt"
-python3 ./screen/python/submit_results.py -c ${TRAVIS_COMMIT} -p trailofbits/s2n -k 2a47f0fa600a405cdc5d4ac1fc310b6d screen_output.txt
+echo "python3 ./screen/python/submit_results.py -c ${TRAVIS_COMMIT} -p trailofbits/s2n -k 2a47f0fa600a405cdc5d4ac1fc310b6d screen_output.txt invariant_output.txt"
+python3 ./screen/python/submit_results.py -c ${TRAVIS_COMMIT} -p trailofbits/s2n -k 2a47f0fa600a405cdc5d4ac1fc310b6d screen_output.txt invariant_output.txt
