@@ -38,6 +38,7 @@ cd build
 make
 sudo make install
 cd ../../
+ldd ./screen/pagai/linux_src/pagai
 ./screen/pagai/linux_src/pagai -h
 time ./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 
