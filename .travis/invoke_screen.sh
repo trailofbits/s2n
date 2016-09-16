@@ -21,7 +21,7 @@ time ./screen/build/llvm/bin/opt \
   -screen-output screen_output.txt \
   -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc || true
 
-# TODO run pagai on bc, assuming on linux and this build works on travis's 14.04 
+# TODO run pagai on bc
 echo "cat screen_output.txt"
 cat screen_output.txt
 pushd ./screen/pagai2
