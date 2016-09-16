@@ -23,7 +23,7 @@ time ./screen/build/llvm/bin/opt \
 
 # TODO run pagai on bc
 echo "cat screen_output.txt"
-#cat screen_output.txt
+cat screen_output.txt
 pushd ./screen/pagai2
 df -k
 cmake . --debug-output --trace
