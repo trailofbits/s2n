@@ -28,6 +28,8 @@ pushd ./screen/pagai2
 df -k
 cmake . --debug-output --trace
 make
+cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
+
 popd
 ldd ./screen/pagai2/src/pagai
 ./screen/pagai2/src/pagai -h
