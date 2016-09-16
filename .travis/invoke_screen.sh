@@ -22,25 +22,25 @@ time ./screen/build/llvm/bin/opt \
   -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc || true
 
 # TODO run pagai on bc, assuming on linux and this build works on travis's 14.04 
-wget https://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz/download
-tar zxf download
-cd  boost_1_58_0
-./bootstrap.sh --exec-prefix=/usr/local --libdir=/usr/lib/x86_64-linux-gnu --includedir=/usr/lib/x86_64-linux-gnu --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log
-./b2
-sudo ./b2 install
-cd ..
+#wget https://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz/download
+#tar zxf download
+#cd  boost_1_58_0
+#./bootstrap.sh --exec-prefix=/usr/local --libdir=/usr/lib/x86_64-linux-gnu --includedir=/usr/lib/x86_64-linux-gnu --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log
+#./b2 link=static
+#sudo ./b2 install
+#cd ..
 # Install Z3
-wget "https://github.com/Z3Prover/z3/archive/29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz" -O z3-29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz
-tar zxf z3-29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz 
-cd z3-29606b5179f76783ffb0c2ca0ed9d614847064b3
-CXX=clang++ CC=clang python scripts/mk_make.py --prefix=/usr/local
-cd build
-make
-sudo make install
-cd ../../
-ldd ./screen/pagai/linux_src/pagai
-./screen/pagai/linux_src/pagai -h
-time ./screen/pagai/linux_src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
+#wget "https://github.com/Z3Prover/z3/archive/29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz" -O z3-29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz
+#tar zxf z3-29606b5179f76783ffb0c2ca0ed9d614847064b3.tar.gz 
+#cd z3-29606b5179f76783ffb0c2ca0ed9d614847064b3
+#CXX=clang++ CC=clang python scripts/mk_make.py --prefix=/usr/local
+#cd build
+#make
+#sudo make install
+#cd ../../
+ldd ./screen/pagai/src/pagai
+./screen/pagai/src/pagai -h
+time ./screen/pagai/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 
 time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/range.so -invariant_analysis -invariant-debug\
