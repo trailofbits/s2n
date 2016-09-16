@@ -6,7 +6,7 @@ DB=$1
 START_SYM=$2
 echo "starting invoke of screen"
 # cat screen/python/comp_db_generate.py
-
+cd /home/travis/build/trailofbits/s2n
 python3 screen/python/comp_db_generate.py -o ./build.sh -l screen/build/llvm ${DB} generate
 
 /bin/bash ./build.sh > /dev/null
