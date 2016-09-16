@@ -42,6 +42,8 @@ echo "cat screen_output.txt"
 cat screen_output.txt
 sudo apt-get install chrpath
 sudo chrpath -r "./screen/pagai/pagai_dynamic_libs/" ./screen/pagai/src/pagai
+export LD_LIBRARY_PATH=./screen/pagai/pagai_dynamic_libs/
+echo $LD_LIBRARY_PATH
 ldd ./screen/pagai/src/pagai
 ./screen/pagai/src/pagai -h
 time ./screen/pagai/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
