@@ -38,6 +38,7 @@ time ./screen/build/llvm/bin/opt \
 #make
 #sudo make install
 #cd ../../
+sudo apt-get install chrpath
 chrpath -r "./screen/pagai/pagai_dynamic_libs/" ./screen/pagai/src/pagai
 ldd ./screen/pagai/src/pagai
 ./screen/pagai/src/pagai -h
