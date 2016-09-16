@@ -25,7 +25,7 @@ time ./screen/build/llvm/bin/opt \
 echo "cat screen_output.txt"
 #cat screen_output.txt
 pushd ./screen/pagai2
-cmake .
+cmake . --debug-output --trace
 make
 popd
 ldd ./screen/pagai2/src/pagai
