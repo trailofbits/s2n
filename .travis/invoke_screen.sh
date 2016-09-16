@@ -4,7 +4,7 @@ set -e
 
 DB=$1
 START_SYM=$2
-
+echo "starting invoke of screen"
 cat screen/python/comp_db_generate.py
 
 python3 screen/python/comp_db_generate.py -o ./build.sh -l screen/build/llvm ${DB} generate
@@ -38,8 +38,10 @@ time ./screen/build/llvm/bin/opt \
 #make
 #sudo make install
 #cd ../../
-apt-get install chrpath
-chrpath -r "./screen/pagai/pagai_dynamic_libs/" ./screen/pagai/src/pagai
+echo "cat screen_output.txt"
+cat screen_output.txt
+sudo apt-get install chrpath
+sudo chrpath -r "./screen/pagai/pagai_dynamic_libs/" ./screen/pagai/src/pagai
 ldd ./screen/pagai/src/pagai
 ./screen/pagai/src/pagai -h
 time ./screen/pagai/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
@@ -52,9 +54,7 @@ time ./screen/build/llvm/bin/opt \
 # Python3.5 should have just been installed for a different depency
 python3 -m ensurepip --user
 python3 -m pip install --user boto3
-echo "cat screen_output.txt"
 echo "cat invariant_output.txt"
-cat screen_output.txt
 cat invariant_output.txt
 echo "${TRAVIS_COMMIT}"
 echo "python3 ./screen/python/submit_results.py -c ${TRAVIS_COMMIT} -p trailofbits/s2n -k 2a47f0fa600a405cdc5d4ac1fc310b6d screen_output.txt invariant_output.txt"
