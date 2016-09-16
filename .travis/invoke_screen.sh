@@ -40,13 +40,17 @@ time ./screen/build/llvm/bin/opt \
 #cd ../../
 echo "cat screen_output.txt"
 cat screen_output.txt
-sudo apt-get install chrpath
-sudo chrpath -r "./screen/pagai/pagai_dynamic_libs/" ./screen/pagai/src/pagai
-export LD_LIBRARY_PATH=./screen/pagai/pagai_dynamic_libs/
-echo $LD_LIBRARY_PATH
-ldd ./screen/pagai/src/pagai
-./screen/pagai/src/pagai -h
-time ./screen/pagai/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
+#sudo apt-get install chrpath
+#sudo chrpath -r "./screen/pagai/pagai_dynamic_libs/" ./screen/pagai/src/pagai
+#export LD_LIBRARY_PATH=./screen/pagai/pagai_dynamic_libs/
+#echo $LD_LIBRARY_PATH
+pushd ./screen/pagai2
+cmake .
+make
+popd
+ldd ./screen/pagai2/src/pagai
+./screen/pagai2/src/pagai -h
+time ./screen/pagai2/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 echo "PAGAI RUN FINISHED"
 time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/range.so -invariant_analysis -invariant-debug\
