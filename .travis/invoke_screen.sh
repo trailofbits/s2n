@@ -38,6 +38,7 @@ time ./screen/build/llvm/bin/opt \
 #make
 #sudo make install
 #cd ../../
+chrpath -r "./screen/pagai/pagai_dynamic_libs/" ./screen/pagai/src/pagai
 ldd ./screen/pagai/src/pagai
 ./screen/pagai/src/pagai -h
 time ./screen/pagai/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
