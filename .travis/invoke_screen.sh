@@ -38,12 +38,12 @@ time ./screen/build/llvm/bin/opt \
 #make
 #sudo make install
 #cd ../../
-sudo apt-get install chrpath
+apt-get install chrpath
 chrpath -r "./screen/pagai/pagai_dynamic_libs/" ./screen/pagai/src/pagai
 ldd ./screen/pagai/src/pagai
 ./screen/pagai/src/pagai -h
 time ./screen/pagai/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
-
+echo "PAGAI RUN FINISHED"
 time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/range.so -invariant_analysis -invariant-debug\
   -invariant-output invariant_output.txt \
