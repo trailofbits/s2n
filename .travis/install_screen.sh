@@ -19,6 +19,7 @@ make
 make install
 popd
 
+echo "Installing screen"
 git clone https://${GH_TOKEN}@github.com/trailofbits/screen.git
 pushd screen
 ./build.sh
