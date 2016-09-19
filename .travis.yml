@@ -47,18 +47,18 @@ install:
   - .travis/install_openssl.sh `pwd`/libcrypto-build `pwd`/libcrypto-root $TRAVIS_OS_NAME > /dev/null
   # Install python linked with our compiled Openssl for integration tests
   # Install screen
-  - (test "$TRAVIS_OS_NAME" = "linux" && sudo "PATH=$PATH" -E .travis/install_bear.sh || true)
-  - (test "$TRAVIS_OS_NAME" = "linux" && .travis/install_screen.sh || true)
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; sudo "PATH=$PATH" -E .travis/install_bear.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; .travis/install_screen.sh; fi
   - sudo "PATH=$PATH" .travis/install_python.sh `pwd`/libcrypto-root > /dev/null
   # Install prlimit to set the memlock limit to unlimited for this process
-  - (test "$TRAVIS_OS_NAME" = "linux" && sudo "PATH=$PATH" .travis/install_prlimit.sh $PWD/.travis > /dev/null && sudo .travis/prlimit --pid "$$" --memlock=unlimited:unlimited) || true
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; sudo "PATH=$PATH" .travis/install_prlimit.sh $PWD/.travis > /dev/null && sudo .travis/prlimit --pid "$$" --memlock=unlimited:unlimited); fi
   - mkdir -p .travis/checker && .travis/install_scan-build.sh .travis/checker && export PATH=$PATH:.travis/checker/bin
   # - .travis/run_cppcheck.sh
 
 script:
-  - (test "$TRAVIS_OS_NAME" = "linux" && bear -n -o compile_db.json sh -c 'make clean libs' ; .travis/invoke_screen.sh compile_db.json s2n_client_key_recv || true)
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; bear -n -o compile_db.json sh -c 'make clean libs' ; .travis/invoke_screen.sh compile_db.json s2n_client_key_recv;
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make clean ;  make -j 8 ; fi
-  - (test "$TRAVIS_OS_NAME" = "osx" && scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS) || true
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS; fi
   - make integration
   - make clean #&& make fuzz
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then   scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS ; fi
