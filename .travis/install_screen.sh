@@ -14,3 +14,6 @@ pushd screen
 ./build.sh
 popd
 
+echo "installing dependancies for pagai"
+sudo apt-get install libapron libapron-dev libapron-ocaml-dev libz3-gmp
+# need cudd yices and boost, export path in invoke script
