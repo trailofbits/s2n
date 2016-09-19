@@ -47,7 +47,8 @@ install:
   - .travis/install_openssl.sh `pwd`/libcrypto-build `pwd`/libcrypto-root $TRAVIS_OS_NAME > /dev/null
   # Install python linked with our compiled Openssl for integration tests
   # Install screen
-  - (test "$TRAVIS_OS_NAME" = "linux" && sudo "PATH=$PATH" -E .travis/install_screen.sh || true)
+  - (test "$TRAVIS_OS_NAME" = "linux" && sudo "PATH=$PATH" -E .travis/install_bear.sh || true)
+  - (test "$TRAVIS_OS_NAME" = "linux" && .travis/install_screen.sh || true)
   - sudo "PATH=$PATH" .travis/install_python.sh `pwd`/libcrypto-root > /dev/null
   # Install prlimit to set the memlock limit to unlimited for this process
   - (test "$TRAVIS_OS_NAME" = "linux" && sudo "PATH=$PATH" .travis/install_prlimit.sh $PWD/.travis > /dev/null && sudo .travis/prlimit --pid "$$" --memlock=unlimited:unlimited) || true
