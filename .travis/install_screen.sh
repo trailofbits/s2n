@@ -19,9 +19,8 @@ sudo apt-get install libapron libapron-dev libapron-ocaml-dev
 # need cudd yices and boost, export path in invoke script
 
 echo "Installing boost"
-wget http://downloads.sourceforge.net/project/boost/boost/1.58.0/boost_1_58_0.tar.gz?r=&ts=1474322412&use_mirror=heanet
-mv boost_1_58_0.tar.gz\?r\= boost_1_58_0.tar.gz
-tar zxf boost_1_58_0.tar.gz
+wget -O boost.tar.gz "http://downloads.sourceforge.net/project/boost/boost/1.58.0/boost_1_58_0.tar.gz?r=&ts=1474322412&use_mirror=heanet"
+tar zxf boost.tar.gz
 pushd boost_1_58_0/
 ./bootstrap.sh
 ./b2 install
