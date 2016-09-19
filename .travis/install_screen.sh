@@ -23,5 +23,5 @@ wget -O boost.tar.gz "http://downloads.sourceforge.net/project/boost/boost/1.58.
 tar zxf boost.tar.gz
 pushd boost_1_58_0/
 ./bootstrap.sh
-./b2 install
+sudo ./b2 install
 popd
