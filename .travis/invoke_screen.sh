@@ -19,7 +19,7 @@ LIB_PATH=$(dirname ${LIB})
 time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/screen.so -screen \
   -screen-output screen_output.txt \
-  -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc || true
+  -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc
 
 # TODO run pagai on bc
 echo "cat screen_output.txt"
@@ -36,12 +36,12 @@ make
 popd
 ldd ./screen/pagai2/src/pagai
 ./screen/pagai2/src/pagai -h
-time ./screen/pagai2/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
+time ./screen/pagai2/src/pagai -i ${LIB} --output-bc-v2 ${LIB}
 echo "PAGAI RUN FINISHED"
 time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/range.so -invariant_analysis -invariant-debug\
   -invariant-output invariant_output.txt \
-  ${LIB} -o ${LIB_PATH}/xformed.bc || true
+  ${LIB} -o ${LIB_PATH}/xformed.bc 
 
 # Python3.5 should have just been installed for a different depency
 python3 -m ensurepip --user
