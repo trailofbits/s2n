@@ -30,7 +30,7 @@ echo "cat CMakeLists.txt"
 cat CMakeLists.txt
 cmake . --debug-output --trace
 make
-cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
+# cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
 
 popd
 ldd ./screen/pagai2/src/pagai
