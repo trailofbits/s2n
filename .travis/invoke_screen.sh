@@ -26,6 +26,7 @@ echo "cat screen_output.txt"
 cat screen_output.txt
 pushd ./screen/pagai2
 df -k
+rm -rf CMakeFiles
 echo "cat CMakeLists.txt"
 cat CMakeLists.txt
 cmake . --debug-output --trace
