@@ -25,12 +25,8 @@ time ./screen/build/llvm/bin/opt \
 echo "cat screen_output.txt"
 cat screen_output.txt
 pushd ./screen/pagai2
-df -k
-rm -rf CMakeFiles
-ls 
-echo "cat CMakeLists.txt"
-cat CMakeLists.txt
-cmake . --debug-output --trace
+echo "run CMakeLists.txt"
+sudo cmake . 
 make
 # cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
 
