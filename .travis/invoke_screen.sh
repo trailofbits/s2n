@@ -26,7 +26,7 @@ echo "cat screen_output.txt"
 cat screen_output.txt
 pushd ./screen/pagai2
 echo "run CMakeLists.txt"
-cmake . 
+sudo cmake . 
 make
 # cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
 
