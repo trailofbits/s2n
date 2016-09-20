@@ -15,6 +15,6 @@ pushd screen
 popd
 
 echo "Installing dependancies for pagai"
-sudo apt-get install libmpfr-dev 
+sudo apt-get install libmpfr-dev libgmp3-dev zlib1g-dev flex bison libncurses-dev 
 # need cudd yices and boost, export path in invoke script
 
