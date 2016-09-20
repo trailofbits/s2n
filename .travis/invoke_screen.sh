@@ -28,7 +28,7 @@ pushd ./screen/pagai2
 echo "run CMakeLists.txt"
 #export CUDD_PATH=./external/build/cudd-2.5.0
 #export YICES_PATH=./external/build/yices-1.0.40
-#export Z3_PATH=./external/build/z3-29606b5179f76783ffb0c2ca0ed9d614847064b3
+export Z3_PATH=./external/z3
 cmake . 
 make
 # cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
