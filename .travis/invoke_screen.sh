@@ -37,7 +37,7 @@ make
 
 popd
 PAGAI_BC="./screen/build/llvm/bin/llvm-link -o pagai_lib.bc " 
-grep -l -r -i screen_start ./ | grep ".c" | grep -Ev './screen/|screen.' | ( while read -r line ; do PAGAI_BC="$PAGAI_BC ${line%?}bc"; done 
+grep -l -r -i screen_start ./ | grep ".c" | grep -Ev './screen/|screen.|util-linux' | ( while read -r line ; do PAGAI_BC="$PAGAI_BC ${line%?}bc"; done 
 echo "$PAGAI_BC"
 eval $PAGAI_BC )
 echo "time ./screen/pagai2/src/pagai -i pagai_lib.bc --output-bc-v2 ${LIB} || true"
