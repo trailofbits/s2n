@@ -35,9 +35,7 @@ make
 # cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
 
 popd
-ldd ./screen/pagai2/src/pagai
-./screen/pagai2/src/pagai -h
-time ./screen/pagai2/src/pagai -i ${LIB} --output-bc-v2 ${LIB}
+time ./screen/pagai2/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
 echo "PAGAI RUN FINISHED"
 time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/range.so -invariant_analysis -invariant-debug\
