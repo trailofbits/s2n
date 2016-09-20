@@ -6,7 +6,6 @@ DB=$1
 START_SYM=$2
 echo "starting invoke of screen"
 cat screen/python/comp_db_generate.py
-cd /home/travis/build/trailofbits/s2n
 python3 screen/python/comp_db_generate.py -o ./build.sh -l screen/build/llvm ${DB} generate
 
 /bin/bash ./build.sh > /dev/null
@@ -26,9 +25,11 @@ echo "cat screen_output.txt"
 cat screen_output.txt
 pushd ./screen/pagai2
 echo "run CMakeLists.txt"
-#export CUDD_PATH=./external/build/cudd-2.5.0
-#export YICES_PATH=./external/build/yices-1.0.40
+./fetch_externals.sh
+export CUDD_PATH=./external/cudd
+export YICES_PATH=./external/yices
 export Z3_PATH=./external/z3
+export BOOST_ROOT=./external/boost
 cmake . 
 make
 # cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
