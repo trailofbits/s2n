@@ -20,9 +20,10 @@ time ./screen/build/llvm/bin/opt \
   -screen-output screen_output.txt \
   -screen-start-symbol ${START_SYM} ${LIB} -o ${LIB_PATH}/xformed.bc
 
-# TODO run pagai on bc
 echo "cat screen_output.txt"
 cat screen_output.txt
+
+
 pushd ./screen/pagai2
 echo "Fetching pagai's external dependancies"
 ./fetch_externals.sh
@@ -35,7 +36,12 @@ make
 # cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
 
 popd
-time ./screen/pagai2/src/pagai -i ${LIB} --output-bc-v2 ${LIB} || true
+PAGAI_BC="./screen/build/llvm/bin/llvm-link -o pagai_lib.bc " 
+grep -l -r -i screen_start ./ | grep ".c" | grep -Ev './screen/|screen.' | ( while read -r line ; do PAGAI_BC="$PAGAI_BC ${line%?}bc"; done 
+echo "$PAGAI_BC"
+eval $PAGAI_BC )
+echo "time ./screen/pagai2/src/pagai -i pagai_lib.bc --output-bc-v2 ${LIB} || true"
+time ./screen/pagai2/src/pagai -i pagai_lib.bc --output-bc-v2 ${LIB} || true
 echo "PAGAI RUN FINISHED"
 time ./screen/build/llvm/bin/opt \
   -load screen/build/lib/range.so -invariant_analysis -invariant-debug\
