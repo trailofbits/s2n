@@ -24,7 +24,7 @@ time ./screen/build/llvm/bin/opt \
 echo "cat screen_output.txt"
 cat screen_output.txt
 pushd ./screen/pagai2
-echo "run CMakeLists.txt"
+echo "Fetching pagai's external dependancies"
 ./fetch_externals.sh
 export CUDD_PATH=./external/cudd
 export YICES_PATH=./external/yices
