@@ -4,7 +4,7 @@ set -e
 
 DB=$1
 START_SYM=$2
-echo "starting invoke of screen"
+echo "Starting invoke of screen"
 cat screen/python/comp_db_generate.py
 python3 screen/python/comp_db_generate.py -o ./build.sh -l screen/build/llvm ${DB} generate
 
@@ -33,9 +33,8 @@ export Z3_PATH=./external/z3
 export BOOST_ROOT=./external/boost
 cmake . 
 make
-# cat /home/travis/build/trailofbits/s2n/screen/pagai2/CMakeFiles/CMakeOutput.log
-
 popd
+
 PAGAI_BC="./screen/build/llvm/bin/llvm-link -o pagai_lib.bc " 
 grep -l -r -i screen_start ./ | grep ".c" | grep -Ev './screen/|screen.|util-linux' | ( while read -r line ; do PAGAI_BC="$PAGAI_BC ${line%?}bc"; done 
 echo "$PAGAI_BC"
