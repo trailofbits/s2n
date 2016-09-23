@@ -13,6 +13,7 @@ cat build.sh
 
 python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump
 LIB=$(python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump)
+mv libcrypto-root/lib/libcrypto.bc lib/libs2n.bc
 LIB=./lib/libs2n.bc
 echo Built lib: $LIB
 LIB_PATH=$(dirname ${LIB})
