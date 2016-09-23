@@ -8,7 +8,8 @@ echo "Starting invoke of screen"
 cat screen/python/comp_db_generate.py
 python3 screen/python/comp_db_generate.py -o ./build.sh -l screen/build/llvm ${DB} generate
 
-/bin/bash ./build.sh > /dev/null
+cat build.sh
+/bin/bash ./build.sh #> /dev/null
 
 python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump
 LIB=$(python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump)
