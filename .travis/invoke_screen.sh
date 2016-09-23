@@ -12,6 +12,7 @@ python3 screen/python/comp_db_generate.py -o ./build.sh -l screen/build/llvm ${D
 
 python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump
 LIB=$(python3 screen/python/comp_db_generate.py -o - -l screen/build/llvm ${DB} dump)
+LIB=./lib/libs2n.bc
 echo Built lib: $LIB
 LIB_PATH=$(dirname ${LIB})
 
