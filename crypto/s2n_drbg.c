@@ -82,7 +82,8 @@ static int s2n_drbg_update(struct s2n_drbg *drbg, struct s2n_blob *provided_data
 
     memcpy_check(drbg->v, temp + S2N_DRBG_BLOCK_SIZE, S2N_DRBG_BLOCK_SIZE);
 
-    return 0;
+   SCREEN_END(path);
+   return 0;
 }
 
 int s2n_drbg_seed(struct s2n_drbg *drbg, struct s2n_blob *ps)

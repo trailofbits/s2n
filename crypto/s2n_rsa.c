@@ -205,12 +205,14 @@ int s2n_rsa_decrypt(struct s2n_rsa_private_key *key, struct s2n_blob *in, struct
     if (out->size > sizeof(intermediate)) {
         S2N_ERROR(S2N_ERR_NOMEM);
     }
+    SCREEN_START(rsa_decrypt);
 
     int r = RSA_private_decrypt(in->size, (unsigned char *)in->data, intermediate, key->rsa, RSA_PKCS1_PADDING);
     GUARD(s2n_constant_time_copy_or_dont(out->data, intermediate, out->size, r != out->size));
     if (r != out->size) {
         S2N_ERROR(S2N_ERR_SIZE_MISMATCH);
     }
+    SCREEN_END(rsa_decrypt);
 
     return 0;
 }
