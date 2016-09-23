@@ -13,7 +13,8 @@ addons:
 
 os:
   - linux
-  - osx
+# we do not fully support the osx build yet
+# - osx
 
 dist: trusty
 
