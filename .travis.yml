@@ -54,11 +54,11 @@ install:
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then bear -n -o compile_db.json sh -c 'make clean libs' ; .travis/invoke_screen.sh compile_db.json s2n_client_key_recv; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make clean ;  make -j 8 ; fi
+    #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make clean ;  make -j 8 ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS; fi
     #- make integration
-  - make clean #&& make fuzz
+    #- make clean #&& make fuzz
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then   scan-build --status-bugs -o /tmp/scan-build make -j8; STATUS=$?; test $STATUS -ne 0 && cat /tmp/scan-build/*/*; exit $STATUS ; fi
     #- make integration
-  - make clean #&& make fuzz
+    #- make clean #&& make fuzz
 #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH="`pwd`/screen/build/llvm/bin":$PATH; echo $PATH; which clang; clang --version; llvm-link --version; make saw; fi 
