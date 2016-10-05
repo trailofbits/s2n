@@ -160,9 +160,6 @@ int s2n_record_parse(struct s2n_connection *conn)
         /* Set the IV size to the amount of data written */
         iv.size = s2n_stuffer_data_available(&iv_stuffer);
 
-        iv.data = aad_iv;
-        iv.size = cipher_suite->cipher->io.aead.fixed_iv_size + cipher_suite->cipher->io.aead.record_iv_size;
-
         aad.data = aad_gen;
         aad.size = sizeof(aad_gen);
 
@@ -189,11 +186,15 @@ int s2n_record_parse(struct s2n_connection *conn)
         eq_check(en.size % iv.size, 0);
 
         /* Copy the last encrypted block to be the next IV */
-        memcpy_check(ivpad, en.data + en.size - iv.size, iv.size);
+        if (conn->actual_protocol_version < S2N_TLS11) {
+            memcpy_check(ivpad, en.data + en.size - iv.size, iv.size);
+        }
 
         GUARD(cipher_suite->cipher->io.cbc.decrypt(session_key, &iv, &en, &en));
 
-        memcpy_check(implicit_iv, ivpad, iv.size);
+        if (conn->actual_protocol_version < S2N_TLS11) {
+            memcpy_check(implicit_iv, ivpad, iv.size);
+        }
         break;
     case S2N_AEAD:
         /* Skip explicit IV for decryption */
@@ -206,7 +207,7 @@ int s2n_record_parse(struct s2n_connection *conn)
         GUARD(cipher_suite->cipher->io.aead.decrypt(session_key, &iv, &aad, &en, &en));
         break;
     default:
-        return -1;
+        S2N_ERROR(S2N_ERR_CIPHER_TYPE);
         break;
     }
 

@@ -105,9 +105,21 @@ static int s2n_aead_cipher_aes128_gcm_get_encryption_key(struct s2n_session_key 
 {
     eq_check(in->size, 16);
 
+<<<<<<< HEAD
     EVP_EncryptInit_ex(key->evp_cipher_ctx, EVP_aes_128_gcm(), NULL, NULL, NULL);
     EVP_CIPHER_CTX_ctrl(key->evp_cipher_ctx, EVP_CTRL_GCM_SET_IVLEN, S2N_TLS_GCM_IV_LEN, NULL);
     EVP_EncryptInit_ex(key->evp_cipher_ctx, NULL, NULL, in->data, NULL);
+=======
+    if (EVP_EncryptInit_ex(key->evp_cipher_ctx, EVP_aes_128_gcm(), NULL, NULL, NULL) != 1) {
+        S2N_ERROR(S2N_ERR_KEY_INIT);
+    }
+
+    EVP_CIPHER_CTX_ctrl(key->evp_cipher_ctx, EVP_CTRL_GCM_SET_IVLEN, S2N_TLS_GCM_IV_LEN, NULL);
+
+    if (EVP_EncryptInit_ex(key->evp_cipher_ctx, NULL, NULL, in->data, NULL) != 1) {
+        S2N_ERROR(S2N_ERR_KEY_INIT);
+    }
+>>>>>>> upstream/master
 
     return 0;
 }
@@ -116,9 +128,21 @@ static int s2n_aead_cipher_aes256_gcm_get_encryption_key(struct s2n_session_key 
 {
     eq_check(in->size, 32);
 
+<<<<<<< HEAD
     EVP_EncryptInit_ex(key->evp_cipher_ctx, EVP_aes_256_gcm(), NULL, NULL, NULL);
     EVP_CIPHER_CTX_ctrl(key->evp_cipher_ctx, EVP_CTRL_GCM_SET_IVLEN, S2N_TLS_GCM_IV_LEN, NULL);
     EVP_EncryptInit_ex(key->evp_cipher_ctx, NULL, NULL, in->data, NULL);
+=======
+    if (EVP_EncryptInit_ex(key->evp_cipher_ctx, EVP_aes_256_gcm(), NULL, NULL, NULL) != 1) {
+        S2N_ERROR(S2N_ERR_KEY_INIT);
+    }
+
+    EVP_CIPHER_CTX_ctrl(key->evp_cipher_ctx, EVP_CTRL_GCM_SET_IVLEN, S2N_TLS_GCM_IV_LEN, NULL);
+
+    if (EVP_EncryptInit_ex(key->evp_cipher_ctx, NULL, NULL, in->data, NULL) != 1) {
+        S2N_ERROR(S2N_ERR_KEY_INIT);
+    }
+>>>>>>> upstream/master
 
     return 0;
 }
@@ -127,9 +151,21 @@ static int s2n_aead_cipher_aes128_gcm_get_decryption_key(struct s2n_session_key 
 {
     eq_check(in->size, 16);
 
+<<<<<<< HEAD
     EVP_DecryptInit_ex(key->evp_cipher_ctx, EVP_aes_128_gcm(), NULL, NULL, NULL);
     EVP_CIPHER_CTX_ctrl(key->evp_cipher_ctx, EVP_CTRL_GCM_SET_IVLEN, S2N_TLS_GCM_IV_LEN, NULL);
     EVP_DecryptInit_ex(key->evp_cipher_ctx, NULL, NULL, in->data, NULL);
+=======
+    if (EVP_DecryptInit_ex(key->evp_cipher_ctx, EVP_aes_128_gcm(), NULL, NULL, NULL) != 1) {
+        S2N_ERROR(S2N_ERR_KEY_INIT);
+    }
+
+    EVP_CIPHER_CTX_ctrl(key->evp_cipher_ctx, EVP_CTRL_GCM_SET_IVLEN, S2N_TLS_GCM_IV_LEN, NULL);
+
+    if (EVP_DecryptInit_ex(key->evp_cipher_ctx, NULL, NULL, in->data, NULL) != 1) {
+        S2N_ERROR(S2N_ERR_KEY_INIT);
+    }
+>>>>>>> upstream/master
 
     return 0;
 }
@@ -138,9 +174,21 @@ static int s2n_aead_cipher_aes256_gcm_get_decryption_key(struct s2n_session_key 
 {
     eq_check(in->size, 32);
 
+<<<<<<< HEAD
     EVP_DecryptInit_ex(key->evp_cipher_ctx, EVP_aes_256_gcm(), NULL, NULL, NULL);
     EVP_CIPHER_CTX_ctrl(key->evp_cipher_ctx, EVP_CTRL_GCM_SET_IVLEN, S2N_TLS_GCM_IV_LEN, NULL);
     EVP_DecryptInit_ex(key->evp_cipher_ctx, NULL, NULL, in->data, NULL);
+=======
+    if (EVP_DecryptInit_ex(key->evp_cipher_ctx, EVP_aes_256_gcm(), NULL, NULL, NULL) != 1) {
+        S2N_ERROR(S2N_ERR_KEY_INIT);
+    }
+
+    EVP_CIPHER_CTX_ctrl(key->evp_cipher_ctx, EVP_CTRL_GCM_SET_IVLEN, S2N_TLS_GCM_IV_LEN, NULL);
+
+    if (EVP_DecryptInit_ex(key->evp_cipher_ctx, NULL, NULL, in->data, NULL) != 1) {
+        S2N_ERROR(S2N_ERR_KEY_INIT);
+    }
+>>>>>>> upstream/master
 
     return 0;
 }
